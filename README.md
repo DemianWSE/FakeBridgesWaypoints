@@ -1,4 +1,4 @@
-Fake Bridges Waypoints v1.0
+Fake Bridges Waypoints
 ========================
 
 1 About
