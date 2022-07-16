@@ -23,6 +23,7 @@ Coded in m4nfo.
 This NewGRF requires the use of "Auz Creek and Drain Objects" and "Auz Water Objects", by Garry G, to work as intended. 
 
 Both of these NewGRFs can be found in the following links:
+
 	- Auz Creek and Drain Objects: https://www.tt-forums.net/viewtopic.php?p=1246799#p1246799
 	- Auz Water Objects: https://www.tt-forums.net/viewtopic.php?p=1239926#p1239926
 
