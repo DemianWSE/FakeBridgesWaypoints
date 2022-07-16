@@ -1,5 +1,3 @@
-# FakeBridgesWaypoints
-
 Fake Bridges Waypoints v1.0
 ========================
 
