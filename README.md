@@ -27,6 +27,8 @@ Both of these NewGRFs can be found in the following links:
 	- Auz Creek and Drain Objects: https://www.tt-forums.net/viewtopic.php?p=1246799#p1246799
 	- Auz Water Objects: https://www.tt-forums.net/viewtopic.php?p=1239926#p1239926
 
+Here's a little video that demonstrates how to use them: https://youtu.be/e0n6fd_zyVo
+
 For more information, check this projects thread: 
 
 3 License
