@@ -29,7 +29,7 @@ Both of these NewGRFs can be found in the following links:
 
 Here's a little video that demonstrates how to use them: https://youtu.be/e0n6fd_zyVo
 
-For more information, check this projects thread: 
+For more information, check this projects thread: https://www.tt-forums.net/viewtopic.php?t=90111
 
 3 License
 =========
