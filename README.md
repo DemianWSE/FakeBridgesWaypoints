@@ -32,7 +32,7 @@ For more information, check this projects thread:
 3 License
 =========
 
-ISR Style Waypoints is licensed under the GNU General Public
+Fake Bridges Waypoints is licensed under the GNU General Public
 License version 2.
 
 This program is free software; you can redistribute it and/or modify it
