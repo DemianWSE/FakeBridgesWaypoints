@@ -12,18 +12,18 @@ setpath(sprites) // Relative path for real sprites
 textmode_on()
 
 grfinit(GRF_FBW,
-    grfname(ALL, "FakeBridgesWaypoints v1.1")
+    grfname(ALL, "FakeBridgesWaypoints v1.2")
     grfdescription(ALL, T_ORANGE "Fake Bridges Waypoints" CRLF
 T_BLACK "A set of waypoints that simulate bridges over rivers" CRLF 
 CRLF
 T_BLACK "To be used along with " T_BLUE "Auz Creek and Drain Objects " T_BLACK "and " T_BLUE "Auz Water Objects" CRLF 
 CRLF
-T_BLACK "By" T_LGRAY " DemianWSE" CRLF
+T_BLACK "By" T_LGRAY " DemianWSE " T_BLACK "and " T_LGRAY "GarryG"CRLF
 
 T_BLACK "License: " T_LGRAY "GPLv2")
     grfurl(ALL, "https://github.com/DemianWSE/FakeBridgesWaypoints")
     grfpalette(DOS)
-    grfversion(2)
+    grfversion(3)
     grfminversion(1)
 )
 
@@ -33,6 +33,13 @@ define(FBW_0,0) // Bridge 1
 define(FBW_1,1) // Bridge 2
 define(FBW_2,2) // Bridge 3
 define(FBW_3,3) // Bridge 4
+
+define(FBW_4,4) // Bridge 5
+define(FBW_5,5) // Bridge 6
+define(FBW_6,6) // Bridge 7
+define(FBW_7,7) // Bridge 8
+define(FBW_8,8) // Bridge 9
+define(FBW_9,9) // Bridge 10
 
 asl_on()
 
@@ -84,7 +91,7 @@ spriteblock(
 	sprite(fakebridges.png 470 130 01 31 64 -31 0)
 	sprite(fakebridges.png 540 130 01 31 64 0 0)
 	sprite(fakebridges.png 610 130 01 31 64 0 0)
-    )
+	)
 )
 
 layout(FBW_0,
@@ -239,11 +246,86 @@ makestation(FBW_2,
 )
 
 //-------------------------------------------------
-// FBW_3: Bridge 4
+// FBW_4: Bridge 5
 //-------------------------------------------------
 
+definestation(FBW_4, "Bridge 5",
+	class("WAYP")
+	callbacks(CB_LAYOUT)
+	exclude_widths(8)
+	exclude_lengths(8)
+)
+
+spriteblock(
+    set(
+// bridge 5 x
+	sprite(fakebridges.png 10 170 01 31 64 -57 -13)
+	sprite(fakebridges.png 80 170 01 31 64 -31 0)
+	sprite(fakebridges.png 150 170 01 31 64 -31 0)
+	sprite(fakebridges.png 220 170 01 31 64 -57 -13)
+
+// bridge 5 y
+	sprite(fakebridges.png 400 170 01 31 64 -5 -13)
+	sprite(fakebridges.png 470 170 01 31 64 -31 0)
+	sprite(fakebridges.png 540 170 01 31 64 -31 0)
+	sprite(fakebridges.png 610 170 01 31 64 -5 -13)
+    )
+)
+
+layout(FBW_4,
+    tile(
+	ground(1012) 
+	regular(1, xyz(0,0,0), dxdydz(16,3,2), aslflags({SKIP, OFFSET_SPRITE}), registers({8, 4})) //back of bridge
+	regular(2, xyz(0,0,0), dxdydz(16,3,2), aslflags({SKIP, OFFSET_SPRITE}), registers({6, 4})) //middle of bridge (front)
+	regular(0, xyz(0,13,0), dxdydz(16,3,2), aslflags({SKIP, OFFSET_SPRITE}), registers({7, 4})) //front of bridge
+	regular(3, xyz(0,13,0), dxdydz(16,3,2), aslflags({SKIP, OFFSET_SPRITE}), registers({5, 4})) //middle of bridge (back)
+    )
+    tile(
+	ground(1011)
+	regular(5, xyz(0,0,0), dxdydz(3,16,2), aslflags({SKIP, OFFSET_SPRITE}), registers({8, 4})) //back of bridge
+	regular(6, xyz(0,0,0), dxdydz(3,16,2), aslflags({SKIP, OFFSET_SPRITE}), registers({6, 4})) //middle of bridge (front)
+	regular(4, xyz(13,0,0), dxdydz(3,16,2), aslflags({SKIP, OFFSET_SPRITE}), registers({7, 4})) //front of bridge
+	regular(7, xyz(13,0,0), dxdydz(3,16,2), aslflags({SKIP, OFFSET_SPRITE}), registers({5, 4})) //middle of bridge (back)
+    )
+)
+
+def(4) setregisters(4, {24, 0, 0, 1, 1}, ref(RESOLVE))
+def(5) setregisters(4, {24, 1, 0, 0, 1}, ref(RESOLVE))
+def(6) setregisters(4, {24, 1, 1, 0, 0}, ref(RESOLVE))
+def(7) setregisters(4, {24, 0, 1, 1, 0}, ref(RESOLVE))
+
+def(8) plt_numrev(
+	self(
+		ref(7) if(0)
+		ref(6) else
+	)
+)
+
+def(9) plt_num(
+	self(
+		ref(5) if(0)
+		ref(8) else
+	)
+)
+
+def(10) plt_total(
+	self(
+		ref(4) if(1)
+		ref(9) else
+	)
+)
+
+def(11) callback(
+	cbr(0) if(CB_LAYOUT)
+	ref(10) else
+)
+
+makestation(FBW_4,
+	default(ref(11))
+)
+
 //-------------------------------------------------
-// register 8 is reserved in case more bridges are added
+// FBW_3: Bridge 4
 //-------------------------------------------------
 
 definestation(FBW_3, "Bridge 4",
@@ -255,7 +337,7 @@ definestation(FBW_3, "Bridge 4",
 
 spriteblock(
     set(
-// bridge 1 x
+// bridge 4 x
 	sprite(fakebridges.png 10 210 01 31 64 -57 -13)
 	sprite(fakebridges.png 80 210 01 31 64 -31 0)
 	sprite(fakebridges.png 150 210 01 31 64 0 0)
@@ -267,7 +349,7 @@ spriteblock(
 	sprite(fakebridges.png 150 290 01 31 64 -31 0)
 	sprite(fakebridges.png 220 290 01 31 64 -31 0)
 
-// bridge 1 y
+// bridge 4 y
 	sprite(fakebridges.png 400 210 01 31 64 -5 -13)
 	sprite(fakebridges.png 470 210 01 31 64 -31 0)
 	sprite(fakebridges.png 540 210 01 31 64 0 0)
@@ -285,16 +367,16 @@ layout(FBW_3,
     tile(
 	ground(1012) 
 	regular(1, xyz(0,0,0), dxdydz(16,3,2), aslflags(OFFSET_SPRITE), registers(4)) //back of bridge
-	regular(2, xyoff(0, 0), aslflags({SKIP, OFFSET_SPRITE}), registers({7, 8})) //middle of bridge (front)
+	regular(2, xyoff(0, 0), aslflags(SKIP), registers(7)) //middle of bridge (front)
 	regular(0, xyz(0,13,0), dxdydz(16,3,2), aslflags(OFFSET_SPRITE), registers(5)) //front of bridge
-	regular(3, xyoff(0, 0), aslflags({SKIP, OFFSET_SPRITE}), registers({6, 8})) //middle of bridge (back)
+	regular(3, xyoff(0, 0), aslflags(SKIP), registers(6)) //middle of bridge (back)
     )
     tile(
 	ground(1011)
 	regular(11, xyz(0,0,0), dxdydz(3,16,2), aslflags(OFFSET_SPRITE), registers(4)) //back of bridge
-	regular(12, xyoff(0, 0), aslflags({SKIP, OFFSET_SPRITE}), registers({7, 8})) //middle of bridge (front)
+	regular(12, xyoff(0, 0), aslflags(SKIP), registers(7)) //middle of bridge (front)
 	regular(10, xyz(13,0,0), dxdydz(3,16,2), aslflags(OFFSET_SPRITE), registers(5)) //front of bridge
-	regular(13, xyoff(0, 0), aslflags({SKIP, OFFSET_SPRITE}), registers({6, 8})) //middle of bridge (back)
+	regular(13, xyoff(0, 0), aslflags(SKIP), registers(6)) //middle of bridge (back)
     )
 )
 
@@ -337,6 +419,517 @@ def(16) callback(
 
 makestation(FBW_3,
 	default(ref(16))
+)
+
+//-------------------------------------------------
+// FBW_5: Bridge 6
+//-------------------------------------------------
+
+definestation(FBW_5, "Bridge 6",
+	class("WAYP")
+	callbacks(CB_LAYOUT)
+	exclude_widths(8)
+	exclude_lengths(8)
+)
+
+spriteblock(
+    set(
+// bridge 6 x
+	sprite(fakebridges.png 10 330 01 31 64 -57 -13)
+	sprite(fakebridges.png 80 330 01 31 64 -31 0)
+	sprite(fakebridges.png 150 330 01 31 64 -31 0)
+	sprite(fakebridges.png 220 330 01 31 64 -57 -13)
+	sprite(fakebridges.png 80 370 01 31 64 -57 -13)
+	sprite(fakebridges.png 150 370 01 31 64 -57 -13)
+	sprite(fakebridges.png 220 370 01 31 64 -57 -13)
+	sprite(fakebridges.png 80 410 01 31 64 -31 0)
+	sprite(fakebridges.png 150 410 01 31 64 -31 0)
+	sprite(fakebridges.png 220 410 01 31 64 -31 0)
+
+// bridge 6 y
+	sprite(fakebridges.png 400 330 01 31 64 -5 -13)
+	sprite(fakebridges.png 470 330 01 31 64 -31 0)
+	sprite(fakebridges.png 540 330 01 31 64 -31 0)
+	sprite(fakebridges.png 610 330 01 31 64 -5 -13)
+	sprite(fakebridges.png 470 370 01 31 64 -5 -13)
+	sprite(fakebridges.png 540 370 01 31 64 -5 -13)
+	sprite(fakebridges.png 610 370 01 31 64 -5 -13)
+	sprite(fakebridges.png 470 410 01 31 64 -31 0)
+	sprite(fakebridges.png 540 410 01 31 64 -31 0)
+	sprite(fakebridges.png 610 410 01 31 64 -31 0)	
+    )
+)
+
+layout(FBW_5,
+    tile(
+	ground(1012) 
+	regular(1, xyz(0,0,0), dxdydz(16,3,2), aslflags({SKIP, OFFSET_SPRITE}), registers({9, 4})) //back of bridge
+	regular(2, xyz(0,0,0), dxdydz(16,3,2), aslflags(SKIP), registers(7)) //middle of bridge (front)
+	regular(0, xyz(0,13,0), dxdydz(16,3,2), aslflags({SKIP, OFFSET_SPRITE}), registers({8, 5})) //front of bridge
+	regular(3, xyz(0,13,0), dxdydz(16,3,2), aslflags(SKIP), registers(6)) //middle of bridge (back)
+    )
+    tile(
+	ground(1011)
+	regular(11, xyz(0,0,0), dxdydz(3,16,2), aslflags({SKIP, OFFSET_SPRITE}), registers({9, 4})) //back of bridge
+	regular(12, xyz(0,0,0), dxdydz(3,16,2), aslflags(SKIP), registers(7)) //middle of bridge (front)
+	regular(10, xyz(13,0,0), dxdydz(3,16,2), aslflags({SKIP, OFFSET_SPRITE}), registers({8, 5})) //front of bridge
+	regular(13, xyz(13,0,0), dxdydz(3,16,2), aslflags(SKIP), registers(6)) //middle of bridge (back)
+    )
+)
+
+def(1,RESOLVE) spriteset(little(0))
+
+def(2) setregisters(4, {0, 0, 0, 0, 1, 1}, ref(RESOLVE))
+def(3) setregisters(4, {0, 0, 0, 1, 1, 0}, ref(RESOLVE))
+def(4) setregisters(4, {0, 0, 1, 0, 0, 1}, ref(RESOLVE))
+def(5) setregisters(4, {6, 0, 1, 0, 0, 1}, ref(RESOLVE))
+def(6) setregisters(4, {7, 0, 1, 0, 0, 1}, ref(RESOLVE))
+def(7) setregisters(4, {8, 0, 1, 0, 0, 1}, ref(RESOLVE))
+def(8) setregisters(4, {0, 4, 0, 1, 1, 0}, ref(RESOLVE))
+def(9) setregisters(4, {0, 5, 0, 1, 1, 0}, ref(RESOLVE))
+def(10) setregisters(4, {0, 6, 0, 1, 1, 0}, ref(RESOLVE))
+def(11) setregisters(4, {6, 4, 0, 0, 1, 1}, ref(RESOLVE))
+def(12) setregisters(4, {7, 5, 0, 0, 1, 1}, ref(RESOLVE))
+def(13) setregisters(4, {8, 6, 0, 0, 1, 1}, ref(RESOLVE))
+def(14) setregisters(4, {0, 0, 1, 1, 0, 0}, ref(RESOLVE))
+
+def(15) plt_edges(
+	ref(2) if(15)
+	ref(3) if(7)
+	ref(4) if(13)
+	ref(5) if(12)
+	ref(6) if(8)
+	ref(7) if(9)
+	ref(8) if(6)
+	ref(9) if(2)
+	ref(10) if(3)
+	ref(11) if(14)
+	ref(12) if(10)
+	ref(13) if(11)
+	ref(14) else
+)	
+
+def(16) callback(
+	cbr(0) if(CB_LAYOUT)
+	ref(15) else
+)
+
+makestation(FBW_5,
+	default(ref(16))
+)
+
+//-------------------------------------------------
+// FBW_6: Bridge 7
+//-------------------------------------------------
+
+definestation(FBW_6, "Bridge 7",
+	class("WAYP")
+	callbacks(CB_LAYOUT)
+	exclude_widths(8)
+	exclude_lengths(8)
+)
+
+spriteblock(
+    set(
+// bridge 7 x
+	sprite(fakebridges.png 10 450 01 31 64 -57 -13)
+	sprite(fakebridges.png 80 450 01 31 64 -31 0)
+	sprite(fakebridges.png 150 450 01 31 64 -31 0)
+	sprite(fakebridges.png 220 450 01 31 64 -57 -13)
+	sprite(fakebridges.png 80 490 01 31 64 -57 -13)
+	sprite(fakebridges.png 150 490 01 31 64 -57 -13)
+	sprite(fakebridges.png 220 490 01 31 64 -57 -13)
+	sprite(fakebridges.png 80 530 01 31 64 -31 0)
+	sprite(fakebridges.png 150 530 01 31 64 -31 0)
+	sprite(fakebridges.png 220 530 01 31 64 -31 0)
+
+// bridge 7 y
+	sprite(fakebridges.png 400 450 01 31 64 -5 -13)
+	sprite(fakebridges.png 470 450 01 31 64 -31 0)
+	sprite(fakebridges.png 540 450 01 31 64 -31 0)
+	sprite(fakebridges.png 610 450 01 31 64 -5 -13)
+	sprite(fakebridges.png 470 490 01 31 64 -5 -13)
+	sprite(fakebridges.png 540 490 01 31 64 -5 -13)
+	sprite(fakebridges.png 610 490 01 31 64 -5 -13)
+	sprite(fakebridges.png 470 530 01 31 64 -31 0)
+	sprite(fakebridges.png 540 530 01 31 64 -31 0)
+	sprite(fakebridges.png 610 530 01 31 64 -31 0)	
+    )
+)
+
+layout(FBW_6,
+    tile(
+	ground(1012) 
+	regular(1, xyz(0,0,0), dxdydz(16,3,2), aslflags({SKIP, OFFSET_SPRITE}), registers({9, 4})) //back of bridge
+	regular(2, xyz(0,0,0), dxdydz(16,3,2), aslflags(SKIP), registers(7)) //middle of bridge (front)
+	regular(0, xyz(0,13,0), dxdydz(16,3,2), aslflags({SKIP, OFFSET_SPRITE}), registers({8, 5})) //front of bridge
+	regular(3, xyz(0,13,0), dxdydz(16,3,2), aslflags(SKIP), registers(6)) //middle of bridge (back)
+    )
+    tile(
+	ground(1011)
+	regular(11, xyz(0,0,0), dxdydz(3,16,2), aslflags({SKIP, OFFSET_SPRITE}), registers({9, 4})) //back of bridge
+	regular(12, xyz(0,0,0), dxdydz(3,16,2), aslflags(SKIP), registers(7)) //middle of bridge (front)
+	regular(10, xyz(13,0,0), dxdydz(3,16,2), aslflags({SKIP, OFFSET_SPRITE}), registers({8, 5})) //front of bridge
+	regular(13, xyz(13,0,0), dxdydz(3,16,2), aslflags(SKIP), registers(6)) //middle of bridge (back)
+    )
+)
+
+def(1,RESOLVE) spriteset(little(0))
+
+def(2) setregisters(4, {0, 0, 0, 0, 1, 1}, ref(RESOLVE))
+def(3) setregisters(4, {0, 0, 0, 1, 1, 0}, ref(RESOLVE))
+def(4) setregisters(4, {0, 0, 1, 0, 0, 1}, ref(RESOLVE))
+def(5) setregisters(4, {6, 0, 1, 0, 0, 1}, ref(RESOLVE))
+def(6) setregisters(4, {7, 0, 1, 0, 0, 1}, ref(RESOLVE))
+def(7) setregisters(4, {8, 0, 1, 0, 0, 1}, ref(RESOLVE))
+def(8) setregisters(4, {0, 4, 0, 1, 1, 0}, ref(RESOLVE))
+def(9) setregisters(4, {0, 5, 0, 1, 1, 0}, ref(RESOLVE))
+def(10) setregisters(4, {0, 6, 0, 1, 1, 0}, ref(RESOLVE))
+def(11) setregisters(4, {6, 4, 0, 0, 1, 1}, ref(RESOLVE))
+def(12) setregisters(4, {7, 5, 0, 0, 1, 1}, ref(RESOLVE))
+def(13) setregisters(4, {8, 6, 0, 0, 1, 1}, ref(RESOLVE))
+def(14) setregisters(4, {0, 0, 1, 1, 0, 0}, ref(RESOLVE))
+
+def(15) plt_edges(
+	ref(2) if(15)
+	ref(3) if(7)
+	ref(4) if(13)
+	ref(5) if(12)
+	ref(6) if(8)
+	ref(7) if(9)
+	ref(8) if(6)
+	ref(9) if(2)
+	ref(10) if(3)
+	ref(11) if(14)
+	ref(12) if(10)
+	ref(13) if(11)
+	ref(14) else
+)	
+
+def(16) callback(
+	cbr(0) if(CB_LAYOUT)
+	ref(15) else
+)
+
+makestation(FBW_6,
+	default(ref(16))
+)
+
+//-------------------------------------------------
+// FBW_7: Bridge 8
+//-------------------------------------------------
+
+definestation(FBW_7, "Bridge 8",
+	class("WAYP")
+	callbacks(CB_LAYOUT)
+	exclude_widths(8)
+	exclude_lengths(8)
+)
+
+spriteblock(
+    set(
+// bridge 7 x
+	sprite(fakebridges.png 10 570 01 50 64 -57 -32)
+	sprite(fakebridges.png 80 570 01 50 64 -31 -19)
+	sprite(fakebridges.png 150 570 01 50 64 -31 -19)
+	sprite(fakebridges.png 220 570 01 50 64 -57 -32)
+	sprite(fakebridges.png 80 630 01 50 64 -57 -32)
+	sprite(fakebridges.png 150 630 01 50 64 -57 -32)
+	sprite(fakebridges.png 220 630 01 50 64 -57 -32)
+	sprite(fakebridges.png 80 690 01 50 64 -31 -19)
+	sprite(fakebridges.png 150 690 01 50 64 -31 -19)
+	sprite(fakebridges.png 220 690 01 50 64 -31 -19)
+
+// bridge 7 y
+	sprite(fakebridges.png 400 570 01 50 64 -5 -32)
+	sprite(fakebridges.png 470 570 01 50 64 -31 -19)
+	sprite(fakebridges.png 540 570 01 50 64 -31 -19)
+	sprite(fakebridges.png 610 570 01 50 64 -5 -32)
+	sprite(fakebridges.png 470 630 01 50 64 -5 -32)
+	sprite(fakebridges.png 540 630 01 50 64 -5 -32)
+	sprite(fakebridges.png 610 630 01 50 64 -5 -32)
+	sprite(fakebridges.png 470 690 01 50 64 -31 -19)
+	sprite(fakebridges.png 540 690 01 50 64 -31 -19)
+	sprite(fakebridges.png 610 690 01 50 64 -31 -19)	
+    )
+)
+
+layout(FBW_7,
+    tile(
+	ground(1012) 
+	regular(1, xyz(0,0,0), dxdydz(16,3,20), aslflags({SKIP, OFFSET_SPRITE}), registers({9, 4})) //back of bridge
+	regular(2, xyz(0,0,0), dxdydz(16,3,20), aslflags(SKIP), registers(7)) //middle of bridge (front)
+	regular(0, xyz(0,13,0), dxdydz(16,3,20), aslflags({SKIP, OFFSET_SPRITE}), registers({8, 5})) //front of bridge
+	regular(3, xyz(0,13,0), dxdydz(16,3,20), aslflags(SKIP), registers(6)) //middle of bridge (back)
+    )
+    tile(
+	ground(1011)
+	regular(11, xyz(0,0,0), dxdydz(3,16,20), aslflags({SKIP, OFFSET_SPRITE}), registers({9, 4})) //back of bridge
+	regular(12, xyz(0,0,0), dxdydz(3,16,20), aslflags(SKIP), registers(7)) //middle of bridge (front)
+	regular(10, xyz(13,0,0), dxdydz(3,16,20), aslflags({SKIP, OFFSET_SPRITE}), registers({8, 5})) //front of bridge
+	regular(13, xyz(13,0,0), dxdydz(3,16,20), aslflags(SKIP), registers(6)) //middle of bridge (back)
+    )
+)
+
+def(1,RESOLVE) spriteset(little(0))
+
+def(2) setregisters(4, {0, 0, 0, 0, 1, 1}, ref(RESOLVE))
+def(3) setregisters(4, {0, 0, 0, 1, 1, 0}, ref(RESOLVE))
+def(4) setregisters(4, {0, 0, 1, 0, 0, 1}, ref(RESOLVE))
+def(5) setregisters(4, {6, 0, 1, 0, 0, 1}, ref(RESOLVE))
+def(6) setregisters(4, {7, 0, 1, 0, 0, 1}, ref(RESOLVE))
+def(7) setregisters(4, {8, 0, 1, 0, 0, 1}, ref(RESOLVE))
+def(8) setregisters(4, {0, 4, 0, 1, 1, 0}, ref(RESOLVE))
+def(9) setregisters(4, {0, 5, 0, 1, 1, 0}, ref(RESOLVE))
+def(10) setregisters(4, {0, 6, 0, 1, 1, 0}, ref(RESOLVE))
+def(11) setregisters(4, {6, 4, 0, 0, 1, 1}, ref(RESOLVE))
+def(12) setregisters(4, {7, 5, 0, 0, 1, 1}, ref(RESOLVE))
+def(13) setregisters(4, {8, 6, 0, 0, 1, 1}, ref(RESOLVE))
+def(14) setregisters(4, {0, 0, 1, 1, 0, 0}, ref(RESOLVE))
+
+def(15) plt_edges(
+	ref(2) if(15)
+	ref(3) if(7)
+	ref(4) if(13)
+	ref(5) if(12)
+	ref(6) if(8)
+	ref(7) if(9)
+	ref(8) if(6)
+	ref(9) if(2)
+	ref(10) if(3)
+	ref(11) if(14)
+	ref(12) if(10)
+	ref(13) if(11)
+	ref(14) else
+)	
+
+def(16) callback(
+	cbr(0) if(CB_LAYOUT)
+	ref(15) else
+)
+
+makestation(FBW_7,
+	default(ref(16))
+)
+
+//-------------------------------------------------
+// FBW_8: Bridge 9
+//-------------------------------------------------
+
+definestation(FBW_8, "Bridge 9",
+	class("WAYP")
+	callbacks(CB_LAYOUT)
+	exclude_widths(8)
+	exclude_lengths(8)
+)
+
+spriteblock(
+    set(
+// bridge 8 x
+	sprite(fakebridges.png 10 750 01 50 64 -57 -32)
+	sprite(fakebridges.png 80 750 01 50 64 -31 -19)
+	sprite(fakebridges.png 150 750 01 50 64 -31 -19)
+	sprite(fakebridges.png 220 750 01 50 64 -57 -32)
+	sprite(fakebridges.png 290 750 01 50 64 -55 -32)
+	sprite(fakebridges.png 10 810 01 60 64 -47 -42)
+	sprite(fakebridges.png 80 810 01 50 64 -57 -32)
+	sprite(fakebridges.png 150 810 01 50 64 -57 -32)
+	sprite(fakebridges.png 220 810 01 50 64 -57 -32)
+	sprite(fakebridges.png 290 810 01 60 66 -49 -42)
+	sprite(fakebridges.png 80 865 01 55 64 -31 -24)
+	sprite(fakebridges.png 150 865 01 55 64 -31 -24)
+	sprite(fakebridges.png 220 865 01 55 64 -31 -24)
+
+// bridge 8 y
+	sprite(fakebridges.png 400 750 01 50 64 -5 -32)
+	sprite(fakebridges.png 470 750 01 50 64 -31 -19)
+	sprite(fakebridges.png 540 750 01 50 64 -31 -19)
+	sprite(fakebridges.png 610 750 01 50 64 -5 -32)
+	sprite(fakebridges.png 680 750 01 50 64 -7 -32)
+	sprite(fakebridges.png 400 810 01 60 64 -15 -42)
+	sprite(fakebridges.png 470 810 01 50 64 -5 -32)
+	sprite(fakebridges.png 540 810 01 50 64 -5 -32)
+	sprite(fakebridges.png 610 810 01 50 64 -5 -32)
+	sprite(fakebridges.png 680 810 01 60 66 -15 -42)
+	sprite(fakebridges.png 470 865 01 55 64 -31 -24)
+	sprite(fakebridges.png 540 865 01 55 64 -31 -24)
+	sprite(fakebridges.png 610 865 01 55 64 -31 -24)	
+    )
+)
+
+layout(FBW_8,
+    tile(
+	ground(1012) 
+	regular(1, xyz(0,0,0), dxdydz(16,3,20), aslflags({SKIP, OFFSET_SPRITE}), registers({9, 4})) //back of bridge
+	regular(2, xyz(0,0,0), dxdydz(16,3,20), aslflags(SKIP), registers(7)) //middle of bridge (front)
+	regular(0, xyz(0,13,0), dxdydz(16,3,20), aslflags({SKIP, OFFSET_SPRITE}), registers({8, 5})) //front of bridge
+	regular(3, xyz(0,13,0), dxdydz(16,3,20), aslflags({SKIP, OFFSET_SPRITE}), registers({6, 10})) //middle of bridge (back)
+    )
+    tile(
+	ground(1011)
+	regular(14, xyz(0,0,0), dxdydz(3,16,20), aslflags({SKIP, OFFSET_SPRITE}), registers({9, 4})) //back of bridge
+	regular(15, xyz(0,0,0), dxdydz(3,16,20), aslflags(SKIP), registers(7)) //middle of bridge (front)
+	regular(13, xyz(13,0,0), dxdydz(3,16,20), aslflags({SKIP, OFFSET_SPRITE}), registers({8, 5})) //front of bridge
+	regular(16, xyz(13,0,0), dxdydz(3,16,20), aslflags({SKIP, OFFSET_SPRITE}), registers({6, 10})) //middle of bridge (back)
+    )
+)
+
+def(1,RESOLVE) spriteset(little(0))
+
+def(2) setregisters(4, {0, 0, 0, 0, 1, 1, 0}, ref(RESOLVE))
+def(3) setregisters(4, {0, 0, 0, 1, 1, 0, 0}, ref(RESOLVE))
+def(4) setregisters(4, {0, 0, 1, 0, 0, 1, 0}, ref(RESOLVE))
+def(5) setregisters(4, {9, 0, 1, 0, 0, 1, 2}, ref(RESOLVE))
+def(6) setregisters(4, {10, 0, 1, 0, 0, 1, 6}, ref(RESOLVE))
+def(7) setregisters(4, {11, 0, 1, 0, 0, 1, 1}, ref(RESOLVE))
+def(8) setregisters(4, {0, 6, 0, 1, 1, 0, 0}, ref(RESOLVE))
+def(9) setregisters(4, {0, 7, 0, 1, 1, 0, 0}, ref(RESOLVE))
+def(10) setregisters(4, {0, 8, 0, 1, 1, 0, 0}, ref(RESOLVE))
+def(11) setregisters(4, {9, 6, 0, 0, 1, 1, 0}, ref(RESOLVE))
+def(12) setregisters(4, {10, 7, 0, 0, 1, 1, 0}, ref(RESOLVE))
+def(13) setregisters(4, {11, 8, 0, 0, 1, 1, 0}, ref(RESOLVE))
+def(14) setregisters(4, {0, 0, 1, 1, 0, 0, 2}, ref(RESOLVE))
+def(15) setregisters(4, {0, 0, 1, 1, 0, 0, 6}, ref(RESOLVE))
+def(16) setregisters(4, {0, 0, 1, 1, 0, 0, 1}, ref(RESOLVE))
+def(17) setregisters(4, {0, 0, 1, 1, 0, 0, 0}, ref(RESOLVE))
+
+def(18) plt_edges(
+	ref(2) if(15)
+	ref(3) if(7)
+	ref(4) if(13)
+	ref(5) if(12)
+	ref(6) if(8)
+	ref(7) if(9)
+	ref(8) if(6)
+	ref(9) if(2)
+	ref(10) if(3)
+	ref(11) if(14)
+	ref(12) if(10)
+	ref(13) if(11)
+	ref(14) if(4)
+	ref(15) if(0)
+	ref(16) if(1)
+	ref(17) if(5)
+	ref(2) else
+)	
+
+def(19) callback(
+	cbr(0) if(CB_LAYOUT)
+	ref(18) else
+)
+
+makestation(FBW_8,
+	default(ref(19))
+)
+
+//-------------------------------------------------
+// FBW_9: Bridge 10
+//-------------------------------------------------
+
+definestation(FBW_9, "Bridge 10",
+	class("WAYP")
+	callbacks(CB_LAYOUT)
+	exclude_widths(8)
+	exclude_lengths(8)
+)
+
+spriteblock(
+    set(
+// bridge 9 x
+	sprite(fakebridges.png 10 930 01 50 64 -57 -32)
+	sprite(fakebridges.png 80 930 01 50 64 -31 -19)
+	sprite(fakebridges.png 150 930 01 50 64 -31 -19)
+	sprite(fakebridges.png 220 930 01 50 64 -57 -32)
+	sprite(fakebridges.png 290 930 01 50 64 -55 -32)
+	sprite(fakebridges.png 10 990 01 60 64 -47 -42)
+	sprite(fakebridges.png 80 990 01 50 64 -57 -32)
+	sprite(fakebridges.png 150 990 01 50 64 -57 -32)
+	sprite(fakebridges.png 220 990 01 50 64 -57 -32)
+	sprite(fakebridges.png 290 990 01 60 66 -49 -42)
+	sprite(fakebridges.png 80 1045 01 55 64 -31 -24)
+	sprite(fakebridges.png 150 1045 01 55 64 -31 -24)
+	sprite(fakebridges.png 220 1045 01 55 64 -31 -24)
+
+// bridge 9 y
+	sprite(fakebridges.png 400 930 01 50 64 -5 -32)
+	sprite(fakebridges.png 470 930 01 50 64 -31 -19)
+	sprite(fakebridges.png 540 930 01 50 64 -31 -19)
+	sprite(fakebridges.png 610 930 01 50 64 -5 -32)
+	sprite(fakebridges.png 680 930 01 50 64 -7 -32)
+	sprite(fakebridges.png 400 990 01 60 64 -15 -42)
+	sprite(fakebridges.png 470 990 01 50 64 -5 -32)
+	sprite(fakebridges.png 540 990 01 50 64 -5 -32)
+	sprite(fakebridges.png 610 990 01 50 64 -5 -32)
+	sprite(fakebridges.png 680 990 01 60 66 -15 -42)
+	sprite(fakebridges.png 470 1045 01 55 64 -31 -24)
+	sprite(fakebridges.png 540 1045 01 55 64 -31 -24)
+	sprite(fakebridges.png 610 1045 01 55 64 -31 -24)	
+    )
+)
+
+layout(FBW_9,
+    tile(
+	ground(1012) 
+	regular(1, xyz(0,0,0), dxdydz(16,3,20), aslflags({SKIP, OFFSET_SPRITE}), registers({9, 4})) //back of bridge
+	regular(2, xyz(0,0,0), dxdydz(16,3,20), aslflags(SKIP), registers(7)) //middle of bridge (front)
+	regular(0, xyz(0,13,0), dxdydz(16,3,20), aslflags({SKIP, OFFSET_SPRITE}), registers({8, 5})) //front of bridge
+	regular(3, xyz(0,13,0), dxdydz(16,3,20), aslflags({SKIP, OFFSET_SPRITE}), registers({6, 10})) //middle of bridge (back)
+    )
+    tile(
+	ground(1011)
+	regular(14, xyz(0,0,0), dxdydz(3,16,20), aslflags({SKIP, OFFSET_SPRITE}), registers({9, 4})) //back of bridge
+	regular(15, xyz(0,0,0), dxdydz(3,16,20), aslflags(SKIP), registers(7)) //middle of bridge (front)
+	regular(13, xyz(13,0,0), dxdydz(3,16,20), aslflags({SKIP, OFFSET_SPRITE}), registers({8, 5})) //front of bridge
+	regular(16, xyz(13,0,0), dxdydz(3,16,20), aslflags({SKIP, OFFSET_SPRITE}), registers({6, 10})) //middle of bridge (back)
+    )
+)
+
+def(1,RESOLVE) spriteset(little(0))
+
+def(2) setregisters(4, {0, 0, 0, 0, 1, 1, 0}, ref(RESOLVE))
+def(3) setregisters(4, {0, 0, 0, 1, 1, 0, 0}, ref(RESOLVE))
+def(4) setregisters(4, {0, 0, 1, 0, 0, 1, 0}, ref(RESOLVE))
+def(5) setregisters(4, {9, 0, 1, 0, 0, 1, 2}, ref(RESOLVE))
+def(6) setregisters(4, {10, 0, 1, 0, 0, 1, 6}, ref(RESOLVE))
+def(7) setregisters(4, {11, 0, 1, 0, 0, 1, 1}, ref(RESOLVE))
+def(8) setregisters(4, {0, 6, 0, 1, 1, 0, 0}, ref(RESOLVE))
+def(9) setregisters(4, {0, 7, 0, 1, 1, 0, 0}, ref(RESOLVE))
+def(10) setregisters(4, {0, 8, 0, 1, 1, 0, 0}, ref(RESOLVE))
+def(11) setregisters(4, {9, 6, 0, 0, 1, 1, 0}, ref(RESOLVE))
+def(12) setregisters(4, {10, 7, 0, 0, 1, 1, 0}, ref(RESOLVE))
+def(13) setregisters(4, {11, 8, 0, 0, 1, 1, 0}, ref(RESOLVE))
+def(14) setregisters(4, {0, 0, 1, 1, 0, 0, 2}, ref(RESOLVE))
+def(15) setregisters(4, {0, 0, 1, 1, 0, 0, 6}, ref(RESOLVE))
+def(16) setregisters(4, {0, 0, 1, 1, 0, 0, 1}, ref(RESOLVE))
+def(17) setregisters(4, {0, 0, 1, 1, 0, 0, 0}, ref(RESOLVE))
+
+def(18) plt_edges(
+	ref(2) if(15)
+	ref(3) if(7)
+	ref(4) if(13)
+	ref(5) if(12)
+	ref(6) if(8)
+	ref(7) if(9)
+	ref(8) if(6)
+	ref(9) if(2)
+	ref(10) if(3)
+	ref(11) if(14)
+	ref(12) if(10)
+	ref(13) if(11)
+	ref(14) if(4)
+	ref(15) if(0)
+	ref(16) if(1)
+	ref(17) if(5)
+	ref(2) else
+)	
+
+def(19) callback(
+	cbr(0) if(CB_LAYOUT)
+	ref(18) else
+)
+
+makestation(FBW_9,
+	default(ref(19))
 )
 
 asl_off()
