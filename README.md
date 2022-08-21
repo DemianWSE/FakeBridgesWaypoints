@@ -54,7 +54,7 @@ with this program; if not, write to the Free Software Foundation, Inc.,
 4 Credits
 =========
 
-Coded and Drawn by DemianWSE
+Coded and Drawn by DemianWSE and GarryG
 
 4.1 Acknowledgements
 --------------------
